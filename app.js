@@ -3,11 +3,14 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
+const mongoose = require('mongoose')
+require('dotenv').config({ path: '.env' })
+
 const app = express()
+mongoose.connect(process.env.DB_URL,  { useNewUrlParser: true, useUnifiedTopology: true })
 
 const publicRouter = require('./routes/publicRouter')
 
-require('dotenv').config({ path: '.env' })
 
 //Define the static files folder (for images, styles, javascript etc)
 const publicPath = path.resolve(__dirname, 'public')
@@ -21,6 +24,7 @@ app.use(logger('dev'))
 
 app.use(bodyParser.urlencoded({extended: false}))
 
+/*
 var entries = []
 app.locals.entries = entries
 
@@ -28,6 +32,7 @@ app.use(function(req, res, next){
     req.entries = entries
     next()
 })
+*/
 
 // Wire up the router
 app.use('/', publicRouter)

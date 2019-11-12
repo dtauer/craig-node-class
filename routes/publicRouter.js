@@ -11,5 +11,9 @@ publicRouter.route('/new-entry')
     .get(publicController.showNewEntry)
     .post(publicController.addNewEntry)
 
+// Remove an entry
+publicRouter.route('/entry/:id/delete')
+    .get(publicController.deleteEntry)
+
 //Make the publicRouter Available for anything to use
 module.exports = publicRouter
