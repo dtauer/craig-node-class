@@ -11,7 +11,12 @@
 </head>
 <body class="container">
     <div class="text-right">
-        <a class="btn btn-sm btn-default" href="/create-account">Create an Account</a>
-        <a class="btn btn-sm btn-default" href="/login">Login</a>
+        <% if(currentUser){ %>
+            Current User: <%= currentUser.email %>
+            <a href="/logout" class="btn btn-sm btn-default">Logout</a>
+        <% } else { %>
+            <a class="btn btn-sm btn-default" href="/create-account">Create an Account</a>
+            <a class="btn btn-sm btn-default" href="/login">Login</a>
+        <% } %>
     </div>
     <h1>Dustin's Express Guestbook <a href="/new-entry" class="btn btn-primary pull-right">Write in the guestbook</a></h1>

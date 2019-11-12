@@ -15,7 +15,12 @@ module.exports = function(){
         })
     })
 
-    passport.use("login", new LocalStrategy(function(email, password, done) {
+    passport.use("login", new LocalStrategy(
+      {
+        usernameField: 'email',   // Need to let passport know we are using a different field for username
+        passwordField: 'password'  
+      },
+      function(email, password, done) {
         console.log('logging in with:', email, password)
         User.findOne({ email }, function(err, user) {
           console.log(err, user)

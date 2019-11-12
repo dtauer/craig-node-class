@@ -24,8 +24,12 @@ publicRouter.route('/login')
     .get(publicController.showLogin)
     .post(passport.authenticate('login', {
         successRedirect: '/',
-        failureRedirect: '/login'
+        failureRedirect: '/login',
+        failureFlash: false
     }))
+
+publicRouter.route('/logout')
+    .get(publicController.logout)
 
 //Make the publicRouter Available for anything to use
 module.exports = publicRouter

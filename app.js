@@ -43,15 +43,10 @@ app.use(logger('dev'))
 
 app.use(bodyParser.urlencoded({extended: false}))
 
-/*
-var entries = []
-app.locals.entries = entries
-
 app.use(function(req, res, next){
-    req.entries = entries
+    res.locals.currentUser = req.user // create a currentUser property for the views to work with
     next()
 })
-*/
 
 // Wire up the router
 app.use('/', publicRouter)
