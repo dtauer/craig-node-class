@@ -6,8 +6,16 @@ const logger = require('morgan')
 const mongoose = require('mongoose')
 require('dotenv').config({ path: '.env' })
 
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const passport = require('passport')
+const passportHelper = require('./helpers/passport')
+
+
 const app = express()
 mongoose.connect(process.env.DB_URL,  { useNewUrlParser: true, useUnifiedTopology: true })
+
+passportHelper() // calling the passport helper module to initialize
 
 const publicRouter = require('./routes/publicRouter')
 
@@ -19,6 +27,17 @@ app.use(express.static(publicPath))
 // Tell express how to render our views and where to find them
 app.set("views", path.resolve(__dirname, "views"))
 app.set("view engine", "ejs")
+
+// Wireup the cookie and session management for logged in users
+app.use(cookieParser())
+app.use(session({
+    secret: 'abc123',
+    resave: true,
+    saveUninitialized: true
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 app.use(logger('dev'))
 

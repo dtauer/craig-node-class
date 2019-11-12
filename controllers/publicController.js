@@ -1,4 +1,5 @@
 const Entry = require('../models/Entry')
+const User = require('../models/User')
 
 exports.showIndex = async function (req, res){
     // Get Entries from Database
@@ -37,5 +38,41 @@ exports.deleteEntry = async function(req, res){
     const entry = await Entry.findById(req.params.id)
     entry.remove()
     
+    res.redirect('/')
+}
+
+exports.showCreateAccount = function(req, res){
+    res.render('create-account')
+}
+
+exports.createAccount = async function(req, res){
+    // TODO: MAKE THE USER's ACCOUNT
+    const email = req.body.email
+    const password = req.body.password
+    const passwordConfirm = req.body.passwordConfirm
+
+    if( password != passwordConfirm){
+        return res.redirect('/create-account')
+    }
+
+    // Check to see if user already exists
+    const user = await User.findOne({ email })
+    if(user){
+        //user exists, just redirect for now
+        return res.redirect('/create-account')
+    }
+
+    // assuming user doesn't exist, make user and take them to login page
+    const newUser = new User({ email, password})
+    await newUser.save()
+
+    res.redirect('/login')
+}
+
+exports.showLogin = function(req, res){
+    res.render('login')
+}
+
+exports.loginUser = function(req, res){
     res.redirect('/')
 }
